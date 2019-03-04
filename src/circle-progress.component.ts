@@ -27,6 +27,7 @@ export interface CircleProgressOptionsInterface {
     outerStrokeLinecap?: string;
     innerStrokeColor?: string;
     innerStrokeWidth?: number;
+    textOffsetY?: number;
     titleFormat?: Function;
     title?: string | Array<String>;
     titleColor?: string;
@@ -82,6 +83,7 @@ export class CircleProgressOptions implements CircleProgressOptionsInterface {
     outerStrokeLinecap = 'round';
     innerStrokeColor = '#C7E596';
     innerStrokeWidth = 4;
+    textOffsetY = 0;
     titleFormat = undefined;
     title: string | Array<String> = 'auto';
     titleColor = '#444444';
@@ -178,7 +180,8 @@ export class CircleProgressOptions implements CircleProgressOptionsInterface {
                            [attr.dy]="tspan.dy"
                            [attr.font-size]="svg.title.fontSize"
                            [attr.font-weight]="svg.title.fontWeight"
-                           [attr.fill]="svg.title.color">{{tspan.span}}
+                           [attr.fill]="svg.title.color">
+                           &nbsp;{{tspan.span}}
                     </tspan>
                 </ng-container>
                 <tspan *ngIf="options.showUnits"
@@ -240,6 +243,8 @@ export class CircleProgressComponent implements OnChanges {
 
     @Input() innerStrokeColor: string;
     @Input() innerStrokeWidth: string | number;
+
+    @Input() textOffsetY: number;
 
     @Input() titleFormat: Function;
     @Input() title: string | Array<String>;
@@ -333,7 +338,7 @@ export class CircleProgressComponent implements OnChanges {
         // get title object
         let title = {
             x: centre.x,
-            y: centre.y,
+            y: centre.y+this.options.textOffsetY,
             textAnchor: 'middle',
             color: this.options.titleColor,
             fontSize: this.options.titleFontSize,
@@ -363,7 +368,7 @@ export class CircleProgressComponent implements OnChanges {
         // get subtitle object
         let subtitle = {
             x: centre.x,
-            y: centre.y,
+            y: centre.y+this.options.textOffsetY,
             textAnchor: 'middle',
             color: this.options.subtitleColor,
             fontSize: this.options.subtitleFontSize,
@@ -468,6 +473,7 @@ export class CircleProgressComponent implements OnChanges {
                 colorStop2: this.options.backgroundGradientStopColor === 'transparent' ? '#FFF' : this.options.backgroundGradientStopColor,
             }
         };
+        console.log(this.svg.title);
     };
     getAnimationParameters = (previousPercent: number, currentPercent: number) => {
         const MIN_INTERVAL = 10;
