@@ -473,7 +473,6 @@ export class CircleProgressComponent implements OnChanges {
                 colorStop2: this.options.backgroundGradientStopColor === 'transparent' ? '#FFF' : this.options.backgroundGradientStopColor,
             }
         };
-        console.log(this.svg.title);
     };
     getAnimationParameters = (previousPercent: number, currentPercent: number) => {
         const MIN_INTERVAL = 10;
